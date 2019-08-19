@@ -3,7 +3,7 @@ To build an Axentia TFT Vincore image with Yocto:
 0. You should use Google's repo tool to clone variscite-bsp-platform from our Github. For example:
 
     mkdir ~/vincore-yocto && cd $_
-    repo init -u git://git@github.com/Axentia/variscite-bsp-platform -b axentia-thud
+    repo init -u ssh://git@github.com/Axentia/variscite-bsp-platform -b axentia-thud
     repo sync -j4
 
    There should be an axentia- branch corresponding to a variscite version. The variscite branch
@@ -14,7 +14,7 @@ To build an Axentia TFT Vincore image with Yocto:
 
 1. From your working directory (~/vincore-yocto), run the setup-environment script.
 
-    MACHINE=var-som-mx6 DISTRO=fslc-x11 . setup-environment build_x11
+    MACHINE=ax-mx6-vincore DISTRO=fslc-x11 . setup-environment build_x11
 
    This will create the build_x11 folder with some configuration.
 
