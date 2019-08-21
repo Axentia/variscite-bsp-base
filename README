@@ -1,76 +1,36 @@
-Variscite i.MX Yocto BSP
-========================
+To build an Axentia TFT Vincore image with Yocto:
 
-Supported boards
-----------------
+0. You should use Google's repo tool to clone variscite-bsp-platform from our Github. For example:
 
-All of Variscite's i.MX based SOMs/boards
+    mkdir ~/vincore-yocto && cd $_
+    repo init -u ssh://git@github.com/Axentia/variscite-bsp-platform -b axentia-thud
+    repo sync -j4
 
-(In addition to the FSL Community supported boards, which are listed in their release notes at
+   There should be an axentia- branch corresponding to a variscite version. The variscite branch
+   based on Yocto Thud is called 'thud', correspondingly our branch is 'axentia-thud'.
 
-   http://freescale.github.io/doc/release-notes/current/)
+   If you've already cloned and synchronized the repositories, this readme file is at the root
+   of your working directory.
 
-Quick Start Guide
------------------
+1. From your working directory (~/vincore-yocto), run the setup-environment script.
 
-Once you have downloaded the source of all projects, you will have to
-call:
+    MACHINE=ax-mx6-vincore DISTRO=fslc-x11 . setup-environment build_x11
 
-$: MACHINE=<machine> DISTRO=<distro> source setup-environment <build directory>
+   This will create the build_x11 folder with some configuration.
 
-After this step, you will be with everything need for build an image.
+2. (Optional) Edit build_x11/conf/local.conf, and change the DL_DIR variable. For example:
 
-Contributing
-------------
+    DL_DIR = "/opt/yocto-dl/"
 
-To contribute to the development of this BSP and/or submit patches for
-new boards please send the patches against the respective project as
-informated bellow:
+    Make sure that folder actually exists and is writable. If you don't change DL_DIR, packages
+    will be downloaded to your working folder, which is okay if you only have one. If you are
+    going to use several working folders for different builds, pointing them all to the same
+    download location saves time.
 
-The following layers are included on this release:
+3. Run the bitbake build:
 
- * poky: base build system and metadata
-   Path: sources/poky
-   GIT: git://git.yoctoproject.org/poky
-   Mailing list: https://lists.yoctoproject.org/listinfo/yocto
+    bitbake fsl-image-gui
 
- * meta-openembedded: extra packages and features
-   Path: sources/meta-openembedded
-   GIT: git://git.openembedded.org/meta-openembedded
-   Mailing list: http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
-   Note: Use [meta-oe] in subject to easy the processing
+   The first build will be slow, taking several hours.
 
- * meta-freescale: support for Freescale's processors and board
-   Path: sources/meta-freescale
-   Project: https://github.com/Freescale/meta-freescale
-   GIT: git://github.com/Freescale/meta-freescale.git
-   Mailing list: https://lists.yoctoproject.org/listinfo/meta-freescale
-
- * meta-freescale-3rdparty: support for boards using Freescale's processors
-   Path: sources/meta-freescale-3rdparty
-   Project: https://github.com/Freescale/meta-freescale-3rdparty
-   GIT: git://github.com/Freescale/meta-freescale-3rdparty.git
-   Mailing list: https://lists.yoctoproject.org/listinfo/meta-freescale
-   Note: Use [3rdparty] in subject to easy the processing
-
- * meta-freescale-distro: distribution images and recipes
-   Path: sources/meta-freescale-distro
-   Project: https://github.com/Freescale/meta-freescale-distro
-   GIT: git://github.com/Freescale/meta-freescale-distro.git
-   Mailing list: https://lists.yoctoproject.org/listinfo/meta-freescale
-   Note: Use [distro] in subject to easy the processing
-
- * meta-browser: web browser recipes
-   Path: sources/meta-browser
-   Project: https://github.com/OSSystems/meta-browser
-   GIT: git://github.com/OSSystems/meta-browser.git
-
- * meta-qt5: Qt5 support
-   Path: sources/meta-qt5
-   Project: https://github.com/meta-qt5/meta-qt5
-   GIT: git://github.com/meta-qt5/meta-qt5.git
-
- * meta-variscite-fslc: support for Variscite's i.MX based SOMs/boards
-   Path: sources/meta-variscite-fslc
-   Project: https://github.com/varigit/meta-variscite-fslc
-   GIT: git://github.com/varigit/meta-variscite-fslc.git
+For reference, variscite wiki page: http://variwiki.com/index.php?title=Yocto_Build_Release
