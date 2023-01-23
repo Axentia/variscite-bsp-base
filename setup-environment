@@ -22,6 +22,7 @@
 
 CWD=`pwd`
 PROGNAME="setup-environment"
+PACKAGE_CLASSES=${PACKAGE_CLASSES:-package_rpm}
 
 usage()
 {
@@ -58,7 +59,7 @@ Available Poky's distros: `echo; ls sources/poky/meta-poky/conf/distro/*.conf \
 Examples:
 
 - To create a new Yocto build directory:
-  $ MACHINE=imx6qsabresd DISTRO=fslc-framebuffer source $PROGNAME build
+  $ MACHINE=imx6qdlsabresd DISTRO=fslc-framebuffer source $PROGNAME build
 
 - To use an existing Yocto build directory:
   $ source $PROGNAME build
@@ -130,6 +131,13 @@ if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$DISTRO" ]; then
     return 1
 fi
 
+[ -z "$FSL_EULA_FILE" ] && FSL_EULA_FILE=$CWD/sources/meta-freescale/EULA
+if [ ! -e $FSL_EULA_FILE ]; then
+    echo -e "ERROR: EULA not found at $FSL_EULA_FILE."
+    clean_up
+    return 1
+fi
+
 OEROOT=$PWD/sources/poky
 if [ -e $PWD/sources/oe-core ]; then
     OEROOT=$PWD/sources/oe-core
@@ -157,11 +165,16 @@ if [ "$build_dir_setup_enabled" = "true" ]; then
 
 DL_DIR ?= "\${BSPDIR}/downloads/"
 PRSERV_HOST = "waxon:8585"
+# Uncomment lines below to sign RPMs
+#INHERIT += "sign_rpm"
+#RPM_GPG_NAME = "support@axentia.se"
+#RPM_GPG_PASSPHRASE = "EnterPassphraseHere"
 EOF
     # Change settings according environment
     sed -e "s,MACHINE ??=.*,MACHINE ??= '$MACHINE',g" \
         -e "s,SDKMACHINE ??=.*,SDKMACHINE ??= '$SDKMACHINE',g" \
         -e "s,DISTRO ?=.*,DISTRO ?= '$DISTRO',g" \
+        -e "s,PACKAGE_CLASSES ?=.*,PACKAGE_CLASSES ?= '$PACKAGE_CLASSES',g" \
         -i conf/local.conf
 
     cp $TEMPLATES/* conf/
@@ -207,7 +220,7 @@ EOF
 
     sleep 4
 
-    more -d $CWD/sources/meta-freescale/EULA
+    more -d $FSL_EULA_FILE
     echo
     REPLY=
     while [ -z "$REPLY" ]; do

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <default sync-j="8" revision="hardknott"/>
+
+  <remote fetch="https://git.yoctoproject.org/git" name="yocto"/>
+  <remote fetch="https://github.com/Freescale"     name="freescale"/>
+  <remote fetch="https://git.openembedded.org"     name="oe"/>
+  <remote fetch="https://github.com/varigit"       name="variscite"/>
+  <remote fetch="ssh://git@github.com/Axentia"     name="axentia"/>
+
+  <project remote="yocto"     revision="1cefabe0f0a2dd2ca8b6eb83e8e0824b72da941a" upstream="hardknott"   name="poky"                    path="sources/poky"/>
+  <project remote="yocto"     revision="7f12b5e235e67bfe28891d460cb6b1f3025bd0ea" upstream="hardknott"   name="meta-freescale"          path="sources/meta-freescale"/>
+
+  <project remote="oe"        revision="9ee0e08ba2395b9cb93f2273bb1018adb3630407" upstream="hardknott"   name="meta-openembedded"       path="sources/meta-openembedded"/>
+
+  <project remote="oe"        revision="8db9e4f6ceae33d7a4f55453d31e69f9858af4eb" upstream="hardknott"   name="meta-python2"             path="sources/meta-python2"/>
+
+  <project remote="axentia" revision="imx8mm-hardknott" name="axentia-bsp-base" path="sources/base">
+	<linkfile dest="setup-environment" src="setup-environment"/>
+  </project>
+
+  <project remote="freescale" revision="7f23af99cb97a12134a46b5b9d497f05b758bf0c" upstream="hardknott"   name="meta-freescale-3rdparty" path="sources/meta-freescale-3rdparty"/>
+  <project remote="freescale" revision="916df6d24c0a33a3b1533bde70b6a2724ec77af4" upstream="hardknott"   name="meta-freescale-distro"   path="sources/meta-freescale-distro"/>
+  <project remote="freescale" revision="7c9ad5c4d9e76e261ddf63fb7bc87fc244f55a38" upstream="hardknott"   name="Documentation"           path="sources/Documentation"/>
+
+  <project remote="variscite" revision="eff54271f37b78a7d5e751b3dbbef0e67bd40582" upstream="hardknott"   name="meta-variscite-fslc"     path="sources/meta-variscite-fslc"/>
+
+  <project remote="axentia" revision="hardknott" upstream="hardknott"   name="meta-axentia-bsp"     path="sources/meta-axentia-bsp"/>
+  <project remote="axentia" revision="hardknott" upstream="hardknott"   name="meta-axentia-tft"     path="sources/meta-axentia-tft"/>
+  <project remote="axentia" revision="master" upstream="master"   name="meta-axentia-tts"     path="sources/meta-axentia-tts"/>
+
+</manifest>
